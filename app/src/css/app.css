@@ -1,0 +1,64 @@
+@import url('http://fonts.googleapis.com/css?family=Fredoka+One');
+@import url('atoms.css');
+
+html,body{
+  width: 100%;
+  height: 100%;
+
+  padding: 0px;
+  margin: 0px;
+
+  background-color: #111;
+  color: #EEE;
+  font-family: 'Fredoka One'
+}
+
+/************/
+/*    APP   */
+/************/
+
+.app {
+  text-align: center;
+}
+
+.app .title{
+  font-size: 60px;
+  font-weight: lighter;
+}
+
+/*************/
+/*    GAME   */
+/*************/
+
+.game{
+  width: 40%;
+
+  padding: 10px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+
+  overflow: hidden;
+}
+
+.game .load{
+  width: 100%;
+  height: 150%;
+}
+
+.game .circle{
+  width: 100%;
+  height: 100%;
+
+  border: 1px dotted white;
+  border-radius: 50%;
+}
+
+div.line{
+  z-index: 0;
+  transform-origin: 0 100%;
+  height: 3px;
+  background: #151515;
+}
