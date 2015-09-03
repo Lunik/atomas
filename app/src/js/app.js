@@ -2,8 +2,6 @@ var APP = $('.app');
 var LOAD = $('.load');
 var GAME = $('.game');
 var CIRCLE = $('.game .circle');
-var ATOMS = [];
-var CATOM = $('.center-atom .atom');
 initGame();
 
 function initGame(){
@@ -16,8 +14,10 @@ function initGame(){
 
 function newGame(){
   showLoading();
+  $('.circle-atom.atom').remove();
   var center = getCircleMiddle(CIRCLE);
-  placeAtom(CATOM, center.left, center.top);
+  changeCenterAtom();
+  placeAtom(CATOM, center.left - CATOM.width()/2, center.top - CATOM.height()/2);
   hideLoading();
 }
 
