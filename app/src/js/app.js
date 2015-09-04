@@ -17,6 +17,8 @@ function newGame(){
   $('.circle-atom.atom').remove();
   var center = getCircleMiddle(CIRCLE);
   changeCenterAtom();
+  ATOMS = [];
+  CATOMS = [];
   placeAtom(CATOM, center.left - CATOM.width()/2, center.top - CATOM.height()/2);
   hideLoading();
 }

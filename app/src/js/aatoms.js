@@ -36,3 +36,9 @@ var AATOMS = [
   {id:'Br',num:35,name:'Brome',color:'#5420A7'},
   {id:'Kr',num:36,name:'Krypton',color:'#00BD65'}
 ]; //all possible atoms
+
+var SATOMS = [
+  {id:'+',num:1,name:'Plus',color:'red'},
+  {id:'-',num:2,name:'Moins',color:'blue'},
+  {id:'++',num:3,name:'SPlus',color:'black'},
+];

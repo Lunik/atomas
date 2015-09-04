@@ -12,6 +12,9 @@ function initAtoms(){
 
 function createAtomDiv(type){
   var atom = getAtomFromId(type);
+  if(atom == -1){
+    atom = getSatomFromId(type);
+  }
   var $atom = $('<div>').addClass('atom circle-atom').attr('id', type).css('background-color', atom.color).html('<div class="atom-id">'+atom.id+'</div><div class="atom-name">'+atom.name+'</div>');
   return $atom;
 }
@@ -35,7 +38,7 @@ function addAtom(type,pos){
   if(ATOMS.length < 20){
     ATOMS.splice(pos, 0, type);
     var atom = createAtomDiv(type);
-    CATOMS.push(atom);
+    CATOMS.splice(pos, 0, atom);
     DATOMS.append(atom);
     placeAtoms();
     changeCenterAtom();
@@ -58,7 +61,16 @@ function getAtomFromId(id){
       return AATOMS[i];
     }
   }
-  return {};
+  return -1;
+}
+
+function getSatomFromId(id){
+  for(var i=0; i<SATOMS.length; i++){
+    if(id === SATOMS[i].id){
+      return SATOMS[i];
+    }
+  }
+  return -1;
 }
 
 function maxAtoms(list){
@@ -93,9 +105,9 @@ function randAtom(){
   if(ATOMS.length){
     var num = Math.floor((getAtomFromId(maxAtoms(ATOMS)).num + getAtomFromId(minAtoms(ATOMS)).num)/2);
     var min = num-2;
-    if(min <= 0) num = 1;
+    if(min <= 0) min = 1;
     var max = num+2;
-    if(max >= AATOMS.length) num = AATOMS.length-1;
+    if(max >= AATOMS.length) max = AATOMS.length-1;
     var x = Math.floor((Math.random() * (max-min)) + min);
     return AATOMS[x];
   } else {
@@ -103,7 +115,65 @@ function randAtom(){
   }
 }
 
+function randSatom(){
+  /*var x = Math.floor((Math.random() * (SATOMS.length-0)) + 0);
+  return SATOMS[x];*/
+  return SATOMS[0];
+}
+
 function changeCenterAtom(){
-  var atom = randAtom();
+  var atom;
+  if(ATOMS.length < 8){
+    atom = randAtom();
+  } else {
+    var max = ATOMS.length - 8;
+    if((Math.random() * (max - 0))){
+      atom = randSatom();
+    } else {
+      atom = randAtom();
+    }
+  }
   CATOM.attr('id',atom.id).css('background-color', atom.color).html('<div class="atom-id">'+atom.id+'</div><div class="atom-name">'+atom.name+'</div>');
+}
+
+function removeAtom(pos){
+  ATOMS.splice(pos,1);
+  CATOMS[pos].remove();
+  CATOMS.splice(pos,1);
+  placeAtoms();
+}
+
+function fusionAtoms(){
+  var i = 0;
+  while (ATOMS[i] != '+') {
+    i++;
+  }
+
+  var before = i-1;
+  var after = i+1;
+  if(before < 0) before = ATOMS.length - 1;
+  if(after >= ATOMS.length) after = 0;
+
+  if(ATOMS[i] == '+'){
+    while(ATOMS[before] == ATOMS[after]){
+      console.log(before+'/'+i+'/'+after);
+      var a = ATOMS[before];
+      removeAtom(after);
+      removeAtom(i);
+      removeAtom(before);
+      addAtom('O',before);
+      i = before;
+      if(before == 0){
+        after--;
+      } else if (after == 0){
+        before--;
+      } else {
+        before--;
+        after--;
+      }
+    }
+
+  } else if (ATOMS[i] == '++') {
+
+  }
 }
