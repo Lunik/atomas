@@ -13,10 +13,6 @@ $(document).mousemove(function(event) {
 });
 
 $(document).mousedown(function(event){
-  /*if (CATOM.attr('id') == '-') {
-    console.log('-');
-  }*/
-
   MOUSE.angle = parseFloat(Math.floor(MOUSE.angle));
   var angles = [];
   $('.circle-atom.atom').each(function(index){
@@ -25,10 +21,18 @@ $(document).mousedown(function(event){
   if(angles.length > 1){
     angles.push(MOUSE.angle);
     angles.sort(sortNumber);
-    addAtom(CATOM.attr('id'),angles.indexOf(MOUSE.angle));
+    if (CATOM.attr('id') == '-') {
+      getBackAtom(angles.indexOf(MOUSE.angle));
+    } else {
+      addAtom(CATOM.attr('id'),angles.indexOf(MOUSE.angle));
+    }
   }
   else {
-    addAtom(CATOM.attr('id'),0);
+    if (CATOM.attr('id') == '-') {
+      getBackAtom(angles.indexOf(MOUSE.angle));
+    } else {
+      addAtom(CATOM.attr('id'),0);
+    }
   }
 
 });

@@ -64,6 +64,15 @@ function getAtomFromId(id){
   return -1;
 }
 
+function getAtomFromNum(num){
+  for(var i=0; i<AATOMS.length; i++){
+    if(num === AATOMS[i].num){
+      return AATOMS[i];
+    }
+  }
+  return -1;
+}
+
 function getSatomFromId(id){
   for(var i=0; i<SATOMS.length; i++){
     if(id === SATOMS[i].id){
@@ -116,8 +125,8 @@ function randAtom(){
 }
 
 function randSatom(){
-  /*var x = Math.floor((Math.random() * (SATOMS.length-0)) + 0);
-  return SATOMS[x];*/
+  var x = Math.floor((Math.random() * (SATOMS.length-1-0)) + 0);
+  return SATOMS[x];
   return SATOMS[0];
 }
 
@@ -143,11 +152,24 @@ function removeAtom(pos){
   placeAtoms();
 }
 
+function additionAtoms(a1,a2){
+  if(getSatomFromId(a1) == -1 && getSatomFromId(a2) == -1){
+    a1 = getAtomFromId(a1);
+    a2 = getAtomFromId(a2);
+    var diff = a1.num - a2.num +1;
+    console.log(getAtomFromNum(a1.num + diff).id);
+    return getAtomFromNum(a1.num + diff).id;
+  } else {
+    return -1;
+  }
+}
+
 function fusionAtoms(){
   var i = 0;
   while (ATOMS[i] != '+') {
     i++;
   }
+  var fusionI = i;
 
   var before = i-1;
   var after = i+1;
@@ -156,12 +178,12 @@ function fusionAtoms(){
 
   if(ATOMS[i] == '+'){
     while(ATOMS[before] == ATOMS[after]){
-      console.log(before+'/'+i+'/'+after);
       var a = ATOMS[before];
       removeAtom(after);
       removeAtom(i);
       removeAtom(before);
-      addAtom('O',before);
+      var fAtom = additionAtoms(ATOMS[before],ATOMS[after]);
+      addAtom(fAtom,before);
       i = before;
       if(before == 0){
         after--;
@@ -176,4 +198,15 @@ function fusionAtoms(){
   } else if (ATOMS[i] == '++') {
 
   }
+}
+
+function getBackAtom(pos){
+  if(pos >= ATOMS.length) pos = 0;
+  console.log(ATOMS.length+'/'+pos);
+  var atom = getAtomFromId(ATOMS[pos]);
+  if(atom == -1){
+    atom = getSatomFromId(ATOMS[pos]);
+  }
+  CATOM.attr('id',atom.id).css('background-color', atom.color).html('<div class="atom-id">'+atom.id+'</div><div class="atom-name">'+atom.name+'</div>');
+  removeAtom(pos);
 }
